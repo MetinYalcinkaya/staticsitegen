@@ -1,22 +1,46 @@
-from inline_markdown import *
-from textnode import *
-from markdown_blocks import *
+import os
 import re
+import shutil
+
+from copystatic import copy_files_recursive, copy_static
+from generatepage import *
+from inline_markdown import *
+from markdown_blocks import *
+from textnode import *
+
+# Constants for /static/ and /public/ folders
+STATIC_DIR = os.path.abspath(os.path.join(__file__, "../..", "static"))
+PUBLIC_DIR = os.path.abspath(os.path.join(__file__, "../..", "public"))
+
+# Solution vars
+dir_path_static = "./static"
+dir_path_public = "./public"
+
+dir_path_markdown = "./content/index.md"
+dir_path_template = "./template.html"
+dir_path_dest = "./public/index.html"
 
 
 def main():
-    # test_text = "# This is a heading\n\nThis is a paragraph of text. It has some **bold** and *italic* words inside of it.\n\n* This is a list item\n* This is another list item"
-    # print(markdown_to_blocks(test_text))
-    # print(block_to_block_type(test_text))
-    text = """
-        ``` python
-        def main()
-            pass
-        ```
-        """
-    print(block_to_block_type(text))
-    # exp = r"^(#+\s)"
-    # print(re.findall(exp, text, re.MULTILINE))
+    markdown = "./content/index.md"
+    print(extract_title(open(markdown, "r").read()))
+    generate_page(dir_path_markdown, dir_path_template, dir_path_dest)
+
+
+def main2():
+    print("Deleting public directory...")
+    if os.path.exists(PUBLIC_DIR):
+        shutil.rmtree(PUBLIC_DIR)
+    print("Copying static files to public directory..")
+    copy_static()
+
+    # Solution main
+    print("Deleting public directory...")
+    if os.path.exists(dir_path_public):
+        shutil.rmtree(dir_path_public)
+
+    print("Copying static files to public directory...")
+    copy_files_recursive(dir_path_static, dir_path_public)
 
 
 main()
