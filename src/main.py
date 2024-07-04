@@ -3,7 +3,7 @@ import re
 import shutil
 
 from copystatic import copy_files_recursive, copy_static
-from generatepage import *
+from generatecontent import *
 from inline_markdown import *
 from markdown_blocks import *
 from textnode import *
@@ -16,15 +16,16 @@ PUBLIC_DIR = os.path.abspath(os.path.join(__file__, "../..", "public"))
 dir_path_static = "./static"
 dir_path_public = "./public"
 
-dir_path_markdown = "./content/index.md"
+dir_path_markdown = "./content"
 dir_path_template = "./template.html"
-dir_path_dest = "./public/index.html"
+dir_path_dest = "./public"
 
 
 def main():
-    markdown = "./content/index.md"
-    print(extract_title(open(markdown, "r").read()))
-    generate_page(dir_path_markdown, dir_path_template, dir_path_dest)
+    # markdown = "./content/index.md"
+    # print(extract_title(open(markdown, "r").read()))
+    # generate_page(dir_path_markdown, dir_path_template, dir_path_dest)
+    generate_pages_recursive(dir_path_markdown, dir_path_template, dir_path_dest)
 
 
 def main2():
